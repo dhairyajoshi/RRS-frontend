@@ -145,6 +145,7 @@ class _bookingsState extends State<bookings> {
           ),
           Expanded(
             child: FutureBuilder(
+                initialData: [],
                 future: state.src == ''
                     ? null
                     : DatabaseService().getTrains(

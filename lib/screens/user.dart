@@ -19,7 +19,7 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   final TextStyle _style = TextStyle(fontSize: 30);
-  int cur_idx = 1;
+  int cur_idx = 2;
 
   @override
   Widget build(BuildContext context) {

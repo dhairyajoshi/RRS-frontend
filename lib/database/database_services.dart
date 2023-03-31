@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:railway_system/models/bookingModel.dart';
 import 'package:railway_system/models/trainModel.dart';
 import 'package:railway_system/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -181,6 +182,49 @@ class DatabaseService {
         }).then((val) {
       if (_timer.isActive) {
         _timer.cancel();
+      }
+    });
+    return false;
+  }
+
+  Future<List<BookingModel>> getBookings() async {
+    List<BookingModel> bookings = <BookingModel>[];
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString('token');
+    final response = await http.get(Uri.parse(baseUrl + 'book'),
+        headers: {'Authorization': 'Bearer $token'});
+
+    // print(response.body);
+    final data = json.decode(response.body);
+
+    for (int i = 0; i < data.length; i++) {
+      bookings.add(BookingModel.fromJson(data[i]));
+    }
+
+    return bookings;
+  }
+
+  Future<bool> cancelBooking(BuildContext context, String id,String tid) async {
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString('token');
+    final response = await http.post(Uri.parse(baseUrl + 'book?id=${id}&tid=${tid}'), 
+        headers: {'Authorization': 'Bearer $token'},body: {}); 
+    // print(response.body); 
+    // final data = json.decode(response.body);
+    if (response.statusCode == 204) {
+      return true;
+    } 
+    Timer _timer = Timer(Duration(seconds: 5), () {});
+    showDialog(
+        context: context,
+        builder: (BuildContext builderContext) {
+          _timer = Timer(Duration(seconds: 3), () {
+            Navigator.of(context).pop();
+          });
+          return AlertDialog(content: Text('Couldn\'t cancel booking'));
+        }).then((val) {
+      if (_timer.isActive) {
+        _timer.cancel(); 
       }
     });
     return false;
