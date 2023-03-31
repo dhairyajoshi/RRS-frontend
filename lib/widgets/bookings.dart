@@ -194,6 +194,7 @@ class _TrainCardState extends State<TrainCard> {
 
   @override
   Widget build(BuildContext context) {
+    tkcounter.text='1'; 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 35),
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -295,9 +296,9 @@ class _TrainCardState extends State<TrainCard> {
                                   ),
                                   child: const Text('Cancel'),
                                   onPressed: () {
-                                    state.tikcount = 0;
+                                    state.tikcount = 1;
                                     state.conf = false;
-                                    tkcounter.text = '0';
+                                    tkcounter.text = '1';
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -356,8 +357,8 @@ class _TrainCardState extends State<TrainCard> {
                                 ],
                               );
                             });
-                        tkcounter.text = '0';
-                        state.tikcount = 0;
+                        tkcounter.text = '1';
+                        state.tikcount = 1;
                       }
                     },
                     child: Text('Book ₹${widget.train.amount}')),
