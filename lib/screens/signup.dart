@@ -150,7 +150,7 @@ class SignupPage extends StatelessWidget {
                   onPressed: () async{
                    if(_key.currentState!.validate()){
 
-                    final res= await DatabaseService().userSignUp(context, UserModel(email: email.text, name: name.text, username: uname.text), pass.text);
+                    final res= await DatabaseService().userSignUp(context, UserModel(email: email.text.toString(), name: name.text.toString(), username: uname.text.toString()), pass.text.toString());
                     if(res){
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>UserPage()));
                     }
