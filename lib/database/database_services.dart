@@ -21,11 +21,11 @@ class DatabaseService {
       if (data['msg'] != 'logged in successfully') return false;
       final token = data['token'];
       final pref = await SharedPreferences.getInstance();
-      await pref.setString('token', token);
+      await pref.setString('token', token); 
       return true;
     }
     Timer _timer = Timer(Duration(seconds: 5), () {});
-    showDialog(
+    showDialog( 
         context: context,
         builder: (BuildContext builderContext) {
           _timer = Timer(Duration(seconds: 3), () {
