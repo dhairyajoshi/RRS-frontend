@@ -24,110 +24,117 @@ class LoginPage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(color: Color.fromARGB(255, 199, 225, 246)),
         width: double.infinity,
-        child: Form(
-          autovalidateMode: _autovalid,
-          key: _key,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Railway Reservation System',
-                style: TextStyle(fontSize: 50),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              SizedBox(
-                width: 200,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextFormField(
-                    controller: uname,
-                    onChanged: (val) =>
-                        {_autovalid = AutovalidateMode.disabled},
-                    validator: (value) {
-                      if (value == "") {
-                        return 'username cannot be empty';
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'username',
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: 200,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                  child: TextFormField(
-                    obscureText: true,
-                    controller: pass,
-                    onChanged: (val) =>
-                        {_autovalid = AutovalidateMode.disabled},
-                    validator: (value) {
-                      if (value == "") {
-                        return 'password cannot be empty';
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'password',
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      if (await DatabaseService()
-                          .userLogin(context, uname.text, pass.text)) {
-                        UserModel? user = await DatabaseService().getUser();
-                        if (user != null) {
-                          if (user.isAdmin) {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => AdminPage()));
-                          } else {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => UserPage()));
-                          }
-                        }
-                      }
-                    } else {
-                      _autovalid = AutovalidateMode.always;
-                    }
-                  },
-                  child: Text('Login')),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
+        padding: EdgeInsets.only(top: 200,bottom: 15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Form(
+              autovalidateMode: _autovalid,
+              key: _key,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('New User?'),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SignupPage()));
-                    },
-                    child: Text('Sign up'),
+                  Text(
+                    'Railway Reservation System',
+                    style: TextStyle(fontSize: 50),
                   ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      child: TextFormField(
+                        controller: uname,
+                        onChanged: (val) =>
+                            {_autovalid = AutovalidateMode.disabled},
+                        validator: (value) {
+                          if (value == "") {
+                            return 'username cannot be empty';
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'username',
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      child: TextFormField(
+                        obscureText: true,
+                        controller: pass,
+                        onChanged: (val) =>
+                            {_autovalid = AutovalidateMode.disabled},
+                        validator: (value) {
+                          if (value == "") {
+                            return 'password cannot be empty';
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'password',
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        if (_key.currentState!.validate()) {
+                          if (await DatabaseService()
+                              .userLogin(context, uname.text, pass.text)) {
+                            UserModel? user = await DatabaseService().getUser();
+                            if (user != null) {
+                              if (user.isAdmin) {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => AdminPage()));
+                              } else {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => UserPage()));
+                              }
+                            }
+                          }
+                        } else {
+                          _autovalid = AutovalidateMode.always;
+                        }
+                      },
+                      child: Text('Login')),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('New User?'),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (context) => SignupPage()));
+                        },
+                        child: Text('Sign up'),
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            Text('Copyright ©Dhairya Joshi',style: TextStyle(color: Colors.blue),) 
+          ],
         ),
       ),
     );
