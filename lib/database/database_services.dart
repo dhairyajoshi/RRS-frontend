@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseService {
   final baseUrl = "https://railway-reservation-system-nf2h.onrender.com/"; 
+  // final baseUrl = "http://localhost:3000/";   
   Future<bool> userLogin(
       BuildContext context, String uname, String pass) async {
     final response = await http.post(Uri.parse('${baseUrl}user/login'),
@@ -86,6 +87,22 @@ class DatabaseService {
     }
 
     return null;
+  }
+
+  Future<List<UserModel>> getAllUsers() async {
+    List<UserModel> list = [];
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString('token');
+    final response = await http.get(Uri.parse('${baseUrl}user/all'),
+        headers: {'Authorization': 'Bearer $token'});
+    final data = json.decode(response.body);
+    if (response.statusCode == 200) {
+      for(int i=0;i<data.length;i++){
+        list.add(UserModel.fromJson(data[i]));
+      }
+    }
+  
+    return list;
   }
 
   Future<bool> updateUser(BuildContext context, UserModel user) async {

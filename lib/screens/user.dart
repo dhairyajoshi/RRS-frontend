@@ -6,9 +6,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:railway_system/database/database_services.dart';
 import 'package:railway_system/screens/login.dart';
-import 'package:railway_system/widgets/bookings.dart';
-import 'package:railway_system/widgets/reservations.dart';
-import 'package:railway_system/widgets/userprofile.dart';
+import 'package:railway_system/widgets/customer/bookings.dart';
+import 'package:railway_system/widgets/customer/reservations.dart'; 
+
+import '../widgets/customer/userprofile.dart';
 
 class UserPage extends StatefulWidget {
   UserPage({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _UserPageState extends State<UserPage> {
                   flex: 2,
                   child: Container(
                     width: double.infinity,
-                    color: Color.fromARGB(255, 122, 246, 235),
+                    color: Color.fromARGB(255, 224, 234, 233),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -83,11 +84,12 @@ class _UserPageState extends State<UserPage> {
                   flex: 7,
                   child: Container(
                     width: double.infinity,
-                    color: cur_idx == 0
-                        ? Color.fromARGB(255, 118, 89, 0)
-                        : (cur_idx == 1
-                            ? Color.fromARGB(255, 27, 114, 1)
-                            : (cur_idx == 2 ? Colors.green : Colors.yellow)),
+                    color: Color.fromARGB(255, 185, 209, 229),
+                    // color: cur_idx == 0
+                    //     ? Color.fromARGB(255, 118, 89, 0)
+                    //     : (cur_idx == 1
+                    //         ? Color.fromARGB(255, 27, 114, 1)
+                    //         : (cur_idx == 2 ? Colors.green : Colors.yellow)),
                     child: cur_idx == 0
                         ? UserProfile()
                         : (cur_idx == 1 ? bookings() : Reservation()),

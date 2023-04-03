@@ -6,8 +6,11 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:passwordfield/passwordfield.dart';
 import 'package:railway_system/database/database_services.dart';
+import 'package:railway_system/screens/admin.dart';
 import 'package:railway_system/screens/signup.dart';
 import 'package:railway_system/screens/user.dart';
+
+import '../models/userModel.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -19,9 +22,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 199, 225, 246)
-        ),
+        decoration: BoxDecoration(color: Color.fromARGB(255, 199, 225, 246)),
         width: double.infinity,
         child: Form(
           autovalidateMode: _autovalid,
@@ -30,8 +31,13 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Railway Reservation System',style: TextStyle(fontSize: 50),),
-              SizedBox(height: 50,),
+              Text(
+                'Railway Reservation System',
+                style: TextStyle(fontSize: 50),
+              ),
+              SizedBox(
+                height: 50,
+              ),
               SizedBox(
                 width: 200,
                 child: Padding(
@@ -39,7 +45,8 @@ class LoginPage extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextFormField(
                     controller: uname,
-                    onChanged: (val)=>{ _autovalid=AutovalidateMode.disabled},
+                    onChanged: (val) =>
+                        {_autovalid = AutovalidateMode.disabled},
                     validator: (value) {
                       if (value == "") {
                         return 'username cannot be empty';
@@ -63,7 +70,8 @@ class LoginPage extends StatelessWidget {
                   child: TextFormField(
                     obscureText: true,
                     controller: pass,
-                    onChanged: (val)=>{ _autovalid=AutovalidateMode.disabled},
+                    onChanged: (val) =>
+                        {_autovalid = AutovalidateMode.disabled},
                     validator: (value) {
                       if (value == "") {
                         return 'password cannot be empty';
@@ -80,12 +88,23 @@ class LoginPage extends StatelessWidget {
                 height: 25,
               ),
               ElevatedButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     if (_key.currentState!.validate()) {
-                      if(await DatabaseService()
-                          .userLogin(context, uname.text, pass.text)){
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> UserPage()));
+                      if (await DatabaseService()
+                          .userLogin(context, uname.text, pass.text)) {
+                        UserModel? user = await DatabaseService().getUser();
+                        if (user != null) {
+                          if (user.isAdmin) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => AdminPage()));
+                          } else {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => UserPage()));
                           }
+                        }
+                      }
                     } else {
                       _autovalid = AutovalidateMode.always;
                     }
