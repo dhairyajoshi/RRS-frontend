@@ -149,7 +149,9 @@ class _bookingsState extends State<bookings> {
                 future: state.src == ''
                     ? null
                     : DatabaseService().getTrains(
-                        state.src.trim().toLowerCase(), state.dst.trim().toLowerCase(), state.dt),
+                        state.src.trim().toLowerCase(),
+                        state.dst.trim().toLowerCase(),
+                        state.dt),
                 builder: (BuildContext context, AsyncSnapshot snap) {
                   if (snap.hasData) {
                     return Container(
@@ -191,10 +193,16 @@ class _TrainCardState extends State<TrainCard> {
   final _style = TextStyle(fontSize: 20);
 
   final _tstyle = TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
+  bool _isNumeric(String str) {
+    if (str == null) {
+      return false;
+    }
+    return double.tryParse(str) != null;
+  }
 
   @override
   Widget build(BuildContext context) {
-    tkcounter.text='1'; 
+    tkcounter.text = '1';
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 35),
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -233,7 +241,7 @@ class _TrainCardState extends State<TrainCard> {
                 style: TextStyle(fontSize: 20),
               ),
               Text(
-                widget.train.destination.capitalize(), 
+                widget.train.destination.capitalize(),
                 style: _tstyle,
               )
             ],
@@ -282,6 +290,11 @@ class _TrainCardState extends State<TrainCard> {
                                     width: 20,
                                     child: TextField(
                                       controller: tkcounter,
+                                      onChanged: (val) {
+                                        if (!_isNumeric(val)) {
+                                          tkcounter.text = "1";
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                           border: UnderlineInputBorder()),
                                     ),
@@ -372,7 +385,7 @@ class _TrainCardState extends State<TrainCard> {
 }
 
 extension StringExtension on String {
-    String capitalize() {
-      return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
-    }
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+  }
 }

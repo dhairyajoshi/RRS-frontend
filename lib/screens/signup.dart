@@ -9,6 +9,7 @@ import 'package:railway_system/database/database_services.dart';
 import 'package:railway_system/models/userModel.dart';
 import 'package:railway_system/screens/login.dart';
 import 'package:railway_system/screens/user.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({Key? key}) : super(key: key);
@@ -25,9 +26,9 @@ class SignupPage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(color: Color.fromARGB(255, 199, 225, 246)),
         width: double.infinity,
-        padding: EdgeInsets.only(top: 150,bottom: 15),
+        padding: EdgeInsets.only(top: 150, bottom: 15),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Form(
               key: _key,
@@ -46,8 +47,8 @@ class SignupPage extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 5),
                       child: TextFormField(
                         controller: name,
                         validator: (value) {
@@ -71,8 +72,8 @@ class SignupPage extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 5),
                       child: TextFormField(
                         controller: email,
                         validator: (value) {
@@ -96,8 +97,8 @@ class SignupPage extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 5),
                       child: TextFormField(
                         controller: uname,
                         validator: (value) {
@@ -118,8 +119,8 @@ class SignupPage extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 5),
                       child: TextFormField(
                         obscureText: true,
                         controller: pass,
@@ -142,8 +143,8 @@ class SignupPage extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 5),
                       child: TextFormField(
                         obscureText: true,
                         controller: cpass,
@@ -173,8 +174,9 @@ class SignupPage extends StatelessWidget {
                                   username: uname.text.toString()),
                               pass.text.toString());
                           if (res) {
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                builder: (context) => UserPage()));
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => UserPage()));
                           }
                         } else {
                           _autovalidate = AutovalidateMode.always;
@@ -191,7 +193,8 @@ class SignupPage extends StatelessWidget {
                       TextButton(
                         onPressed: () => {
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => LoginPage()))
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()))
                         },
                         child: Text('Login'),
                       ),
@@ -200,7 +203,14 @@ class SignupPage extends StatelessWidget {
                 ],
               ),
             ),
-            Text('Copyright ©Dhairya Joshi',style: TextStyle(color: Colors.blue),) 
+            InkWell(
+                onTap: () {
+                  launch('https://github.com/dhairyajoshi');
+                },
+                child: Text(
+                  'Copyright ©Dhairya Joshi',
+                  style: TextStyle(color: Colors.blue),
+                ))
           ],
         ),
       ),

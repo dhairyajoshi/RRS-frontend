@@ -9,7 +9,7 @@ import 'package:railway_system/database/database_services.dart';
 import 'package:railway_system/screens/admin.dart';
 import 'package:railway_system/screens/signup.dart';
 import 'package:railway_system/screens/user.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../models/userModel.dart';
 
 class LoginPage extends StatelessWidget {
@@ -133,7 +133,11 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
             ),
-            Text('Copyright ©Dhairya Joshi',style: TextStyle(color: Colors.blue),) 
+            InkWell( 
+              onTap: (){
+                launch('https://github.com/dhairyajoshi');
+              },
+              child: Text('Copyright ©Dhairya Joshi',style: TextStyle(color: Colors.blue),)) 
           ],
         ),
       ),

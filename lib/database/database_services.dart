@@ -10,8 +10,8 @@ import 'package:railway_system/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseService {
-  final baseUrl = "https://railway-reservation-system-nf2h.onrender.com/"; 
-  // final baseUrl = "http://localhost:3000/";   
+  final baseUrl = "https://railway-reservation-system-nf2h.onrender.com/";  
+  // final baseUrl = "http://localhost:3000/"; 
   Future<bool> userLogin(
       BuildContext context, String uname, String pass) async {
     final response = await http.post(Uri.parse('${baseUrl}user/login'),
@@ -209,6 +209,23 @@ class DatabaseService {
     final pref = await SharedPreferences.getInstance();
     final token = pref.getString('token');
     final response = await http.get(Uri.parse(baseUrl + 'book'),
+        headers: {'Authorization': 'Bearer $token'});
+
+    // print(response.body);
+    final data = json.decode(response.body);
+
+    for (int i = 0; i < data.length; i++) {
+      bookings.add(BookingModel.fromJson(data[i]));
+    }
+
+    return bookings;
+  }
+
+  Future<List<BookingModel>> getAllBookings() async {
+    List<BookingModel> bookings = <BookingModel>[];
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString('token');
+    final response = await http.get(Uri.parse(baseUrl + 'book/getall'), 
         headers: {'Authorization': 'Bearer $token'});
 
     // print(response.body);
